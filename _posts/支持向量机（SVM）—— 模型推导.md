@@ -1,7 +1,7 @@
 ---
 type: posts
 title: "支持向量机（SVM）—— 模型推导"
-permalink: /posts/2024-04-18-welcome-to-jekyll
+permalink: /posts/支持向量机（SVM）—— 模型推导
 ---
 ## 线性可分模型  
 > [!definition] （数据集的线性可分性）  
