@@ -23,10 +23,7 @@ permalink: /posts/2024-04-18-welcome-to-jekyll
 问题（2）的求解与下面的问题（3）有密切关系：$$\begin{align}  
 \max_{w, b} & \quad \quad \frac{1}{\lVert w \rVert} \\  
 \text{s.t.} & \quad \quad y_{i}(w^{T} x_{i} + b) \geq 1 \quad i=1,2,\dots,N  
-\end{align} \tag{3}  $$具体地，设（2）求出来的最优解为 $(w_{\star}, b_{\star})$，则存在 $k$，使得 $(k w_{\star}, k b_{\star})$ 是（3）的最优值点。另一方面，设（3）求出来的最优解为 $(w_{0}, b_{0})$，那么 $(w_{0}, b_{0})$ 也是（2）的最优值点。设目标函数分别记为：$$g(w, b) = \frac{d(w, b)}{\lVert w \rVert}, \quad f(w, b) = \frac{1}{\lVert w \rVert}  $$则有
-$$
-g(w_{\star}, b_{\star}) = g_{opt} = f_{opt} = f(w_{0}, b_{0}).  
-$$
+\end{align} \tag{3}  $$具体地，设（2）求出来的最优解为 $(w_{\star}, b_{\star})$，则存在 $k$，使得 $(k w_{\star}, k b_{\star})$ 是（3）的最优值点。另一方面，设（3）求出来的最优解为 $(w_{0}, b_{0})$，那么 $(w_{0}, b_{0})$ 也是（2）的最优值点。设目标函数分别记为：$$g(w, b) = \frac{d(w, b)}{\lVert w \rVert}, \quad f(w, b) = \frac{1}{\lVert w \rVert}  $$则有$$g(w_{\star}, b_{\star}) = g_{opt} = f_{opt} = f(w_{0}, b_{0}).  $$
 
 **证明**  
 
