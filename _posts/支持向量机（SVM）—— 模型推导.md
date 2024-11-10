@@ -1,0 +1,35 @@
+## 线性可分模型  
+> [!definition] （数据集的线性可分性）  
+> 给定一个数据集$$T = \{(x_1, y_1), (x_2, y_2), \dots, (x_N, y_N)\}$$其中 $x_i \in X = \mathbb{R}^n$，$y_i \in Y = \{+1, -1\}$，$i = 1, 2, \dots, N,$如果存在某个超平面 $S$$$w \cdot x + b = 0$$能够将数据集的正实例点和负实例点完全正确地划分到超平面的两侧，即对所有 $y_i = +1$ 的实例 $i$，有 $w \cdot x_i + b > 0,$对所有 $y_i = -1$ 的实例 $i$，有 $w \cdot x_i + b < 0,$则称数据集 $T$ 为线性可分数据集（linearly separable data set）；否则，称数据集 $T$ 线性不可分。  
+
+首先假设存在一个超平面可以完全地分类所有的样本，设超平面为 $(w,b)$，其中 $w$ 为超平面的法向量，$b$ 为偏置。则线性可分支持向量机（SVM）模型表示为：$$\begin{align}  
+\max_{w,b} & \quad \quad \min_{i} \frac{1}{\lVert w \rVert} |w^{T} x_{i} + b| \\  
+\text{s.t.} & \quad \quad y_{i}(w^{T} x_{i} + b) > 0 \quad i=1,2,\dots,N  
+\end{align} \tag{1}  $$其思想是在保证分类全部正确的情况下（约束），计算所有样本到该平面的最小距离，并将这个最小距离最大化。  
+
+令$$d(w, b) = \min_{i} |w^{T} x_{i} + b|$$可以观察到上述问题的求解等价于以下问题[^2]：$$\begin{align}  
+\max_{w,b} & \quad \quad \frac{d(w, b)}{\lVert w \rVert} \\  
+\text{s.t.} & \quad \quad y_{i}(w^{T} x_{i} + b) \geq d(w, b) \quad i=1,2,\dots,N  
+\end{align} \tag{2}  $$
+
+[^2]: 这是因为任意（1）的可行点 $(w, b)$ 满足 $y_{i}(w^{T} x_{i} + b) = |w^{T} x_{i} + b|$。根据定义，$|(w^{T} x_{i} + b)| \geq d(w, b)$ 是必然的。因此它是（2）的可行点。反之显然。另外，注意到由于线性可分的假设，$d(w, b) > 0$。  
+
+
+问题（2）的求解与下面的问题（3）有密切关系：$$\begin{align}  
+\max_{w, b} & \quad \quad \frac{1}{\lVert w \rVert} \\  
+\text{s.t.} & \quad \quad y_{i}(w^{T} x_{i} + b) \geq 1 \quad i=1,2,\dots,N  
+\end{align} \tag{3}  $$具体地，设（2）求出来的最优解为 $(w_{\star}, b_{\star})$，则存在 $k$，使得 $(k w_{\star}, k b_{\star})$ 是（3）的最优值点。另一方面，设（3）求出来的最优解为 $(w_{0}, b_{0})$，那么 $(w_{0}, b_{0})$ 也是（2）的最优值点。设目标函数分别记为：$$g(w, b) = \frac{d(w, b)}{\lVert w \rVert}, \quad f(w, b) = \frac{1}{\lVert w \rVert}  $$则有
+$$
+g(w_{\star}, b_{\star}) = g_{opt} = f_{opt} = f(w_{0}, b_{0}).  
+$$
+
+**证明**  
+
+设 $(w_{\star}, b_{\star})$ 是（2）的最大值点，可以选择一个合适的 $k>0$ 使得 $d(k w_{\star}, k b_{\star}) = k d(w_{\star}, b_{\star}) = 1$，则$$y_{i}(k {w_{\star}}^{T} x_{i} + k b_{\star}) \geq k d((w_{\star}, b_{\star})) = 1，i = 1, 2, \dots, N$$因此，$(k w_{\star}, k b_{\star})$ 是（2）和（3）的可行点，因此 $f_{opt} \geq \frac{1}{\lVert k w_{\star} \rVert}$。事实上，
+$$g_{opt} = \frac{d(w_{\star}, b_{\star})}{\lVert w_{\star} \rVert} = \frac{d(k w_{\star}, k b_{\star})}{\lVert k w_{\star} \rVert} = \frac{1}{\lVert k w_{\star} \rVert}  $$因此，$(k w_{\star}, k b_{\star})$ 也是（2）的最大点，且$$f_{opt} \geq \frac{1}{\lVert k w_{\star} \rVert} = g_{opt}.$$
+另一方面，设 $(w_{0}, b_{0})$ 是（3）的最大点，则$$y_{i}({w_{0}}^{T} x_{i} + b_{0}) \geq 1 \quad i = 1, 2, \dots, N $$这意味着$$y_{i}({w_{0}}^{T} x_{i} + b_{0}) = |{w_{0}}^{T} x_{i} + b_{0}| \geq d(w_{0}, b_{0}) \quad i = 1, 2, \dots, N  
+$$并且由 $d(w, b)$ 的定义，存在某个 $(x_{i}, y_{i})$ 使得 $d(w_{0}, b_{0}) = y_{i}({w_{0}}^{T} x_{i} + b_{0}) \geq 1$，所以 $(w_{0}, b_{0})$ 是（2）的可行点。事实上，$d(w_{0}, b_{0}) = 1$。否则，如果 $d(w_{0}, b_{0}) > 1$，取 $s = \frac{1}{d(w_{0}, b_{0})} < 1$，则 $(s w_{0}, s b_{0})$ 满足$$y_{i}(s {w_{0}}^{T} x_{i} + s b_{0}) \geq 1, \quad i = 1, 2, \dots, N  $$并且对某些 $i_{0}$，有 $y_{i_{0}}({w_{0}}^{T} x_{i_{0}} + b_{0}) = 1$，因此 $(s w_{0}, s b_{0})$ 也是（3）的可行点。然而，$$\frac{1}{\lVert s w_{0} \rVert} > \frac{1}{\lVert w_{0} \rVert}  $$与假设条件矛盾！因此我们得到$$g_{opt} \geq \frac{d(w_{0}, b_{0})}{\lVert w_{0} \rVert} = \frac{1}{\lVert w_{0} \rVert} = f_{opt}.  $$
+由于 $(k w, k b)$ 和 $(w, b)$ 实际上表示的是同一个超平面，求解（3）得到的最优解就是我们需要的平面。对目标函数进行等价变换，SVM 模型可以表示为：$$\begin{align}  
+\min_{w, b} & \quad \quad \frac{\lVert w \rVert^{2}}{2} \\  
+\text{s.t.} & \quad \quad y_{i}(w^{T} x_{i} + b) \geq 1  
+\end{align} \tag{4}  $$
